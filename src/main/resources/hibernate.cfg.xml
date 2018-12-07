@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+
+        <!-- Database connection settings -->
+        <!--
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.url">jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1;MVCC=TRUE</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password"/>
+        -->
+
+        <property name="hibernate.dialect">
+            org.hibernate.dialect.SQLServerDialect
+        </property>
+
+        <property name="hibernate.connection.driver_class">
+            com.microsoft.sqlserver.jdbc.SQLServerDriver
+        </property>
+
+        <!-- Assume test is the database name -->
+        <!-- jdbc:mysql://localhost:3306/fun4-solo-test -->
+        <!-- jdbc:sqlserver://feedpulse.database.windows.net:1433;database=feedpulse -->
+        <property name="hibernate.connection.url">
+            jdbc:sqlserver://fontys-kempen.database.windows.net:1433;database=feedpulse;user=bramkempen@fontys-kempen;password=Qwerty01;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+        </property>
+
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create</property> <!--create or update-->
+
+        <!-- The mapping information of entities -->
+        <mapping class="models.entities.Device"/>
+
+
+    </session-factory>
+</hibernate-configuration>
