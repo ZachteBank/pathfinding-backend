@@ -2,9 +2,13 @@ package models.entities;
 
 import models.BaseEntity;
 
+import java.awt.*;
+
 public class Device implements BaseEntity {
     private String macAdress;
     private int strength;
+
+    private Color color;
 
     @Override
     public int getId() {
@@ -13,6 +17,8 @@ public class Device implements BaseEntity {
 
     public Device() {
     }
+
+
 
     public Device(String macAdress, int strength) {
         this.macAdress = macAdress;
@@ -33,5 +39,13 @@ public class Device implements BaseEntity {
 
     public void setStrength(int strength) {
         this.strength = strength;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

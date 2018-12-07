@@ -1,6 +1,10 @@
 package restserver.restservices;
 
+import models.entities.Beacon;
 import models.entities.Device;
+import models.json.AddDevicesJson;
+import models.json.DevicesJson;
+import restserver.handlers.IBeaconHandler;
 import restserver.handlers.IDeviceHandler;
 import restserver.handlers.IHandler;
 import restserver.response.Reply;
@@ -8,15 +12,15 @@ import utils.GsonUtils;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Path("pathfinding")
 public class PathService {
-    private static IDeviceHandler handler;
-    private Class<Device> entityClass = Device.class;
+    private static IBeaconHandler handler;
+    private Class<Beacon> entityClass = Beacon.class;
 
-    public static void setHandler(IDeviceHandler handler) {
+
+    public static void setHandler(IBeaconHandler handler) {
         PathService.handler = handler;
     }
 
@@ -31,12 +35,20 @@ public class PathService {
     @Path("/add")
     @Consumes("application/json")
     public Response save(String data) {
-        //Device entity = GsonUtils.fromJson(data, entityClass);
+        AddDevicesJson json = GsonUtils.fromJson(data, AddDevicesJson.class);
 
         System.out.println(data);
+        System.out.println(json.getBeacon());
 
+        Beacon beacon = new Beacon();
         List<Device> devices = new ArrayList<>();
-        Reply reply = handler.addDevices(devices);
+        for (DevicesJson device : json.getDevices()) {
+            devices.add(new Device(device.getMac(), device.getStrength()));
+        }
+        beacon.setDevices(devices);
+        beacon.setId(json.getBeacon());
+
+        Reply reply = handler.addDevices(beacon);
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 }
