@@ -3,14 +3,15 @@ package restserver.handlers;
 import dbal.repository.IRepository;
 import models.entities.Beacon;
 import models.entities.Device;
+import models.entities.DeviceResult;
+import models.json.AddDevicesJson;
+import models.json.DevicesJson;
 import restserver.response.Reply;
 import restserver.response.Status;
 
 import java.awt.*;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class BeaconHandler extends AbstractHandler<Beacon> implements IBeaconHandler {
@@ -19,6 +20,41 @@ public class BeaconHandler extends AbstractHandler<Beacon> implements IBeaconHan
     }
 
     private Map<Integer, Beacon> beacons = new ConcurrentHashMap<>();
+    private List<Device> devices = new ArrayList<>();
+    private Random r = new Random();
+
+    public Reply addDevices(AddDevicesJson devicesJson){
+        Beacon beacon = new Beacon();
+        List<DeviceResult> deviceResults = new ArrayList<>();
+
+        for (DevicesJson device : devicesJson.getDevices()) {
+            DeviceResult deviceResult = new DeviceResult();
+            Device tmpDevice = addDeviceToList(device.getMac());
+
+            deviceResult.setDevice(tmpDevice);
+            deviceResult.setStrength(device.getStrength());
+
+            deviceResults.add(deviceResult);
+        }
+
+        beacon.setDevices(deviceResults);
+        beacon.setId(devicesJson.getBeacon());
+
+        return addDevices(beacon);
+    }
+
+    private Device addDeviceToList(String address){
+        for (Device device : devices) {
+            if(device.getMacAdress().equals(address)){
+                return device;
+            }
+        }
+        Device device = new Device(address);
+
+        device.setColor(new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)));
+        devices.add(device);
+        return device;
+    }
 
     @Override
     public Reply addDevices(Beacon beacon) {
@@ -43,10 +79,6 @@ public class BeaconHandler extends AbstractHandler<Beacon> implements IBeaconHan
                 beacon.setX(432);
                 beacon.setY(276);
                 break;
-        }
-        for (Device device : beacon.getDevices()) {
-            Random r = new Random();
-            device.setColor(new Color(r.nextInt(255),r.nextInt(255),r.nextInt(255)));
         }
         beacons.put(beacon.getId(), beacon);
 

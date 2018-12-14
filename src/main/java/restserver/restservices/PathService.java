@@ -40,15 +40,7 @@ public class PathService {
         System.out.println(data);
         System.out.println(json.getBeacon());
 
-        Beacon beacon = new Beacon();
-        List<Device> devices = new ArrayList<>();
-        for (DevicesJson device : json.getDevices()) {
-            devices.add(new Device(device.getMac(), device.getStrength()));
-        }
-        beacon.setDevices(devices);
-        beacon.setId(json.getBeacon());
-
-        Reply reply = handler.addDevices(beacon);
+        Reply reply = handler.addDevices(json);
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 }

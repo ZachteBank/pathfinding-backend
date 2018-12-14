@@ -6,8 +6,6 @@ import java.awt.*;
 
 public class Device implements BaseEntity {
     private String macAdress;
-    private int strength;
-
     private Color color;
 
     @Override
@@ -18,11 +16,8 @@ public class Device implements BaseEntity {
     public Device() {
     }
 
-
-
-    public Device(String macAdress, int strength) {
+    public Device(String macAdress) {
         this.macAdress = macAdress;
-        this.strength = strength;
     }
 
     public String getMacAdress() {
@@ -33,13 +28,6 @@ public class Device implements BaseEntity {
         this.macAdress = macAdress;
     }
 
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
 
     public Color getColor() {
         return color;

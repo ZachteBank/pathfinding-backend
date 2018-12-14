@@ -7,7 +7,7 @@ import java.util.List;
 public class Beacon implements BaseEntity {
     private int id;
 
-    private List<Device> devices;
+    private List<DeviceResult> devices;
 
     private int width = 3;
     private int height = 3;
@@ -18,16 +18,15 @@ public class Beacon implements BaseEntity {
     public Beacon() {
     }
 
-    public Beacon(int id, List<Device> devices) {
-        this.id = id;
+    public Beacon(List<DeviceResult> devices) {
         this.devices = devices;
     }
 
-    public List<Device> getDevices() {
+    public List<DeviceResult> getDevices() {
         return devices;
     }
 
-    public void setDevices(List<Device> devices) {
+    public void setDevices(List<DeviceResult> devices) {
         this.devices = devices;
     }
 
