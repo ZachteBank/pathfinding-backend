@@ -23,6 +23,13 @@ public class BeaconHandler extends AbstractHandler<Beacon> implements IBeaconHan
     private List<Device> devices = new ArrayList<>();
     private Random r = new Random();
 
+    /**
+     * Process the JSON
+     * Parse all beacons and the devices
+     * Add al the beacons to the array list
+     * @param devicesJson Json list with beacons and devices
+     * @return Reply object with the result
+     */
     public Reply addDevices(AddDevicesJson devicesJson){
         Beacon beacon = new Beacon();
         List<DeviceResult> deviceResults = new ArrayList<>();
@@ -58,27 +65,32 @@ public class BeaconHandler extends AbstractHandler<Beacon> implements IBeaconHan
 
     @Override
     public Reply addDevices(Beacon beacon) {
-        switch (beacon.getId()){
-            case 1:
-                beacon.setX(40);
-                beacon.setY(40);
-                break;
-            case 3:
-                beacon.setX(420);
-                beacon.setY(40);
-                break;
-            case 2:
-                beacon.setX(420);
-                beacon.setY(420);
-                break;
-            case 4:
-                beacon.setX(165);
-                beacon.setY(354);
-                break;
-            case 5:
-                beacon.setX(432);
-                beacon.setY(276);
-                break;
+        if(!beacons.containsKey(beacon.getId())) {
+            switch (beacon.getId()) {
+                case 1:
+                    beacon.setX(40);
+                    beacon.setY(40);
+                    break;
+                case 3:
+                    beacon.setX(420);
+                    beacon.setY(40);
+                    break;
+                case 2:
+                    beacon.setX(420);
+                    beacon.setY(420);
+                    break;
+                case 4:
+                    beacon.setX(165);
+                    beacon.setY(354);
+                    break;
+                case 5:
+                    beacon.setX(432);
+                    beacon.setY(276);
+                    break;
+            }
+        }else{
+            beacon.setX(beacons.get(beacon.getId()).getX());
+            beacon.setY(beacons.get(beacon.getId()).getY());
         }
         beacons.put(beacon.getId(), beacon);
 

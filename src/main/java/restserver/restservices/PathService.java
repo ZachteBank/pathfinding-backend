@@ -19,11 +19,18 @@ public class PathService {
     private static IBeaconHandler handler;
     private Class<Beacon> entityClass = Beacon.class;
 
-
+    /**
+     * Set the handler to process the request
+     * @param handler An implementation of an handler
+     */
     public static void setHandler(IBeaconHandler handler) {
         PathService.handler = handler;
     }
 
+    /**
+     * Get all beacons from the system
+     * @return Status code with message
+     */
     @GET
     @Path("/all")
     public Response all() {
@@ -31,6 +38,12 @@ public class PathService {
         return Response.status(reply.getStatus().getCode()).entity(reply.getMessage()).build();
     }
 
+    /**
+     * Save function for the json
+     * Add all the beacons to a list and parse the devices
+     * @param data Json formatted data, see readme for format
+     * @return Status code with message
+     */
     @POST
     @Path("/add")
     @Consumes("application/json")

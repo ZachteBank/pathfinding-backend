@@ -25,7 +25,7 @@ public class Device implements BaseEntity {
     }
 
     public void setMacAdress(String macAdress) {
-        this.macAdress = macAdress;
+        this.macAdress = macAdress.toUpperCase();
     }
 
 

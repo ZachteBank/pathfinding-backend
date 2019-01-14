@@ -21,11 +21,16 @@ import java.util.EnumSet;
 
 public class RestService {
 
+    /**
+     * The startup method
+     * @param args
+     */
     public static void main(String[] args) {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");
         Server jettyServer = new Server(8070);
 
+        //Add parameters for Cross Origin parameters, this is needed to allow post request from other domains
         //region Origin header
         FilterHolder cors = context.addFilter(CrossOriginFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
         cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
@@ -42,10 +47,10 @@ public class RestService {
         jerseyServlet.setInitOrder(0);
 
         // Tells the Jersey Servlet which REST service/class to load.
-
         jerseyServlet.setInitParameter("jersey.config.server.provider.packages",
                 "restserver.restservices");
 
+        //Create a client with a list of the beacons
         Client client = new Client(beaconHandler.getBeacons());
 
         String[] processingArgs = {"Visualisation"};
